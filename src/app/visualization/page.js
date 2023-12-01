@@ -68,10 +68,10 @@ export default function About() {
 function DragDrop({ onChange }) {
   const [fileOrFiles, setFile] = useState(null);
   const [isDragOver, setIsDragOver] = React.useState(false);
-  const handleDragStateChange = (ev:any) => {
+  const handleDragStateChange = (ev) => {
     setIsDragOver(ev);
   };
-  const handleChange = (file:any) => {
+  const handleChange = (file) => {
     setFile(file);
 
     const reader = new FileReader();
@@ -88,7 +88,7 @@ function DragDrop({ onChange }) {
       });
 
       // Parse your file
-      fitParser.parse(e?.target?.result, function (error:any, data:any) {
+      fitParser.parse(e?.target?.result, function (error, data) {
         // Handle result of parse method
         if (error) {
           console.log(error);
@@ -130,7 +130,7 @@ function DropZone({ }) {
 function DroppedFile({ startOver, data }) {
   const [stacked, setStacked] = React.useState(true);
 
-  let handleViewChange = (value:any) => {
+  let handleViewChange = (value) => {
     setStacked(value === "stacked" ? true : false);
   };
   return (
