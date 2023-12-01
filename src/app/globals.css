@@ -17,7 +17,7 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: rgb(var(--background-end-rgb));
   background: linear-gradient(
       to bottom,
       transparent,
@@ -27,7 +27,9 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-
+main {
+  color: rgb(var(--foreground-rgb));
+}
 .logo-box {
   position: relative;
 }

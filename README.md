@@ -34,3 +34,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+## Contributors
+Thanks to [fit-file-analyzer](https://github.com/aboutjax/fit-file-analyzer) [DEMO](https://fit-file-analyzer.vercel.app/)
+
+Thanks to [Jimmy's fit parser](https://github.com/jimmykane/fit-parser)
+
+All started thanks to [Pierre Jacquier](https://github.com/pierremtb)
+
+Big thanks to [Mikael Lofjärd](https://github.com/mlofjard) for [his early prototype](https://github.com/mlofjard/jsonfit).
+See [CONTRIBUTORS](./CONTRIBUTORS.md).
