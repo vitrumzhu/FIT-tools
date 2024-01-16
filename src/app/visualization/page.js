@@ -11,10 +11,11 @@ import ChartStacked from "../../components/chartStacked";
 
 // File dropper file extension config
 const fileTypes = ["FIT"];
-
+const windFileTypes = ["TJF"];
 
 export default function About() {
   const [data, setData] = React.useState(null);
+  const [windData, setWindDate] = React.useState(null);
 
   // Handle dropzone change
   const handleChange = (data, file) => {
@@ -22,6 +23,31 @@ export default function About() {
 
     // Log the data for inspection
     console.log(data);
+  };
+
+  const handleWind = async (inData) => {
+    
+    setWindDate(inData);
+    const bindData = updateWindData(inData, data.data);
+    console.log('handleWind', data, bindData);
+  
+    const updatedBasedata = {
+      ...data,
+      data: {
+        ...data.data,
+        records: bindData,
+      }
+    };
+
+    // 创建包含更新后的整个state的副本
+    const updatedState = {
+      ...data,
+      data: updatedBasedata
+    };
+
+    console.log(updatedBasedata);
+    // 使用setState来更新整个state对象
+    setData(updatedBasedata);
   };
 
   // Reset data
@@ -51,16 +77,100 @@ export default function About() {
       >
         {!data ? <LandingHeader /> : <DataHeader data={data} />}
       </motion.div>
-
       {data ? (
-        <DroppedFile
-          data={data.data}
-          name={data.fileName}
-          startOver={startOver}
-        />
+        <>
+          
+          <DroppedFile
+            data={data.data}
+            name={data.fileName}
+            startOver={startOver}
+          />
+          <DragWindDrop onChange={handleWind}/>
+        </>
       ) : (
         <DragDrop onChange={handleChange} />
       )}
+    </div>
+  );
+}
+function upLoadWindFile () {
+  console.log(windData);
+}
+function updateWindData(windData, baseData) {
+  console.log('updateWindData 1', windData, 'baseData', baseData);
+  // 使用reduce()方法遍历array1
+  const matchedResults = baseData.records?.reduce((result, obj1) => {
+    // console.log('timestamp baseData', obj1.timestamp)
+    // 将array2中的时间戳字段转换为与array1相同的格式，然后进行比较
+    const matchingObj = windData.channels[1].values.find(obj2 => {
+      // console.log('timestamp', obj2.timeStamp)
+      // 将array2中的时间戳字段转换为Date对象
+      const date2 = new Date( Number(obj2.timeStamp) * 1000);
+      // 将array1中的时间戳字段转换为Date对象
+      const date1 = new Date(obj1.timestamp);
+      // 比较两个Date对象是否相等
+      // console.log('timestamp', obj1.timestamp, obj2.timeStamp, date2, date1)
+      return date1.getTime() === date2.getTime();
+    });
+    if (matchingObj) {
+      obj1.windSpeed = matchingObj.value * 3.6;
+      result.push(obj1);
+    }
+    
+    return result;
+  }, []);
+  console.log('match obj', matchedResults);
+  return matchedResults;
+  // matchedResults数组现在包含了匹配的结果
+  // console.log(matchedResults);
+}
+
+function DragWindDrop({onChange}) {
+  const [fileOrFiles, setFile] = useState(null);
+  const [isDragWindOver, setIsDragWindOver] = React.useState(false);
+  const handleDragWindStateChange = (ev) => {
+    setIsDragWindOver(ev);
+  };
+  const handleChange = (file) => {
+    setFile(file);
+
+    const reader = new FileReader();
+
+    reader.readAsText(file);
+    reader.onload = (e) => {
+      // console.log(e.target.result, JSON.parse(reader.result))
+      if (e?.target?.result) {
+        let result = JSON.parse(reader.result)
+        console.log(result.channels[1]?.values);
+        onChange(result, file);
+      }
+    };
+  };
+  return (
+    <FileUploader
+      handleChange={handleChange}
+      classes="h-full w-full flex-1"
+      name="file"
+      types={windFileTypes}
+      label={false}
+      fileOrFiles={fileOrFiles}
+      hoverTitle={false}
+      multiple={false}
+      onDraggingStateChange={handleDragWindStateChange}
+    >
+      <DropWindZone />
+    </FileUploader>
+  );
+}
+
+function DropWindZone({ }) {
+  return (
+    <div
+      className={`bgroup cursor-pointer text-white flex flex-col items-center justify-center p-12 border-dashed border-2 border-slate-300 rounded-md border h-full absolute w-full border-opacity-30`}
+    >
+      <h1 className={`text-lg text-center`}>
+        Drag and drop a Wind JSON file, or <span className="underline">browse</span>
+      </h1>
     </div>
   );
 }
@@ -145,6 +255,14 @@ function DroppedFile({ startOver, data }) {
           <span className="hidden sm:block">Start over</span>
         </button>
         <ViewSwitch onChange={handleViewChange} />
+        <button
+          onClick={upLoadWindFile}
+          style={{ height: 42 }}
+          className="mr-4 shrink-0 flex align-center gap-1 bg-gray-600 py-2 px-3 text-regular capitalize rounded text-white border border-gray-500"
+        >
+          <ResetIcon />
+          <span className="hidden sm:block">Up Load Wind Speed File</span>
+        </button>
       </div>
       <div className="w-full">
         {stacked ? (
@@ -165,16 +283,6 @@ function LandingHeader() {
       </h1>
       <p className="text-xl font-regular text-white w-full mb-4">
         Turn FIT files into beautiful charts.
-      </p>
-      <p className="text-md font-regular text-orange-700 w-full p-2 bg-orange-100 px-3 rounded">
-        Don&apos;t have FIT files? Try one of these:{" "}
-        <a className="underline" href="./fit/indoor_cycling.fit" download>
-          indoor_cycling.fit
-        </a>
-        ,{" "}
-        <a className="underline" href="./fit/outdoor_cycling.fit" download>
-          outdoor_cycling.fit
-        </a>
       </p>
       <div></div>
     </div>

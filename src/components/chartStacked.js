@@ -131,6 +131,15 @@ export default function ChartStacked({ data }) {
       />
       <ChartCard
         data={simplified}
+        datakey={"windSpeed"}
+        name={"windSpeed"}
+        unit={"kph"}
+        color={Tokens.windSpeed}
+        brushStartIndex={brush.startIndex}
+        brushEndIndex={brush.endIndex}
+      />
+      <ChartCard
+        data={simplified}
         datakey={"speed"}
         name={"Speed"}
         unit={"kph"}

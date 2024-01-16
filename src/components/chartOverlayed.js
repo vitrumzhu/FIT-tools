@@ -163,6 +163,18 @@ export default function ChartOverlayed({ data }) {
             tick={{ fontSize: 14, dy: -10, dx: -2 }}
           />
           <YAxis
+            yAxisId="windSpeed"
+            dataKey={"windSpeed"}
+            tick={{ fontSize: 14 }}
+            domain={[0, 80]}
+            tickCount={5}
+            axisLine={false}
+            tickSize={0}
+            hide={true}
+            tickFormatter={(value) => Math.round(value * 1000)}
+            unit=" m"
+          />
+          <YAxis
             yAxisId="speed"
             dataKey={"speed"}
             tick={{ fontSize: 14 }}
@@ -219,6 +231,17 @@ export default function ChartOverlayed({ data }) {
             dot={false}
             activeDot={{ r: 4 }}
             onMouseDown={(e) => console.log({ e })}
+          />
+          <Line
+            isAnimationActive={false}
+            name="windSpeed"
+            yAxisId="windSpeed"
+            type="monotone"
+            dataKey="windSpeed"
+            stroke={Tokens.windSpeed}
+            dot={false}
+            unit={"kph"}
+            activeDot={{ r: 4 }}
           />
           <Line
             isAnimationActive={false}
