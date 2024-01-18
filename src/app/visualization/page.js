@@ -255,14 +255,6 @@ function DroppedFile({ startOver, data }) {
           <span className="hidden sm:block">Start over</span>
         </button>
         <ViewSwitch onChange={handleViewChange} />
-        <button
-          onClick={upLoadWindFile}
-          style={{ height: 42 }}
-          className="mr-4 shrink-0 flex align-center gap-1 bg-gray-600 py-2 px-3 text-regular capitalize rounded text-white border border-gray-500"
-        >
-          <ResetIcon />
-          <span className="hidden sm:block">Up Load Wind Speed File</span>
-        </button>
       </div>
       <div className="w-full">
         {stacked ? (
