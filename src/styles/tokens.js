@@ -5,4 +5,6 @@ export const Tokens = {
   power: "#FB8C00",
   cadence: "#C050DE",
   windSpeed: "#1E88E5",
+  windTemperature: "#d96d3f",
+  cda: "#a0a8da",
 };

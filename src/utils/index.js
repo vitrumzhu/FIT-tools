@@ -39,6 +39,29 @@ export function useWindowSize() {
   return windowSize;
 }
 
+export function merageWindSpeedAndTemperature (windData) {
+  console.log('merageWindSpeedAndTemperature', windData);
+  // 合并数组中相同时间戳的值并转换为对象
+  let mergedObject = {};
+
+  // 第一次循环处理第一个数组
+  for (let item of windData.channels[0].values) {
+    if (!mergedObject[item.timeStamp]) {
+      mergedObject[item.timeStamp] = { windTemperature: item.value, windSpeed: null };
+    } else {
+      mergedObject[item.timeStamp].windTemperature = item.value;
+    }
+  }
+
+  // 第二次循环处理第二个数组
+  for (let item of windData.channels[1].values) {
+    if (mergedObject[item.timeStamp]){
+      mergedObject[item.timeStamp].windSpeed = item.value;
+    }
+  }
+  return mergedObject;
+}
+
 // 更新CdA值的函数，接受温度、海拔、海平面压力、滚动阻力系数、传动效率、速度、骑士和车的总重量和功率作为参数
 export function updateCdA({temperature, altitude, pressureAtSealevel, crr, dte, speed, weight, power}) {
   // 计算cda值
