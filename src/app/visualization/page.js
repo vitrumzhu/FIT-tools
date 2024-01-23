@@ -18,18 +18,18 @@ export default function About() {
   const [data, setData] = React.useState(null);
   const [windData, setWindDate] = React.useState(null);
 
-  const [altitude, setAltitude] = React.useState(366);
-  const [pressure, setPressure] = React.useState(965);
+  const [ccr, setCcr] = React.useState(366);
+  const [dte, setDte] = React.useState(965);
   const [weight, setWeight] = React.useState(80);
   
   // Add state for other input values
 
-  const handleAltitudeChange = (value) => {
-    setAltitude(value);
+  const handleCcrChange = (value) => {
+    setCcr(value);
   };
 
-  const handlePressureChange = (value) => {
-    setPressure(value);
+  const handleDteChange = (value) => {
+    setDte(value);
   };
   const handleWeightChange = (value) => {
     setWeight(value);
@@ -48,8 +48,8 @@ export default function About() {
   const handleWind = async (inData) => {
     
     setWindDate(inData);
-    const bindData = updateWindData(inData, data.data);
-    console.log('handleWind', data, bindData);
+    const bindData = updateWindData({windData:inData, baseData:data.data, ccr, dte, weight});
+    // console.log('handleWind', data, bindData);
   
     const updatedBasedata = {
       ...data,
@@ -130,14 +130,14 @@ export default function About() {
             defaultValue={366}
             fixValue={100000}
             fixLevel={5}
-            onValueChange={handleAltitudeChange}
+            onValueChange={handleCcrChange}
           />
           <RangeInput
             label="Drivetrain efficiency ="
             min={900}
             max={1000}
             defaultValue={965}
-            onValueChange={handlePressureChange}
+            onValueChange={handleDteChange}
             fixValue={10}
             fixLevel={2}
             symbol={'%'}
@@ -146,8 +146,8 @@ export default function About() {
           {/* Add more RangeInput components for other input values */}
           <div className="mt-4">
             <p>Weight of rider + bike: {Number(weight).toFixed(2)} kg</p>
-            <p>Rolling resistance coefficient CRR: {(altitude / 100000).toFixed(5)}</p>
-            <p>Drivetrain efficiency: {(pressure / 10).toFixed(2)} %</p>
+            <p>Rolling resistance coefficient CRR: {(ccr / 100000).toFixed(5)}</p>
+            <p>Drivetrain efficiency: {(dte / 10).toFixed(2)} %</p>
             {/* Display other input values */}
           </div>
 
@@ -160,32 +160,51 @@ export default function About() {
 function upLoadWindFile () {
   console.log(windData);
 }
-function updateWindData(windData, baseData) {
+function updateWindData({windData, baseData, weight, ccr, dte}) {
   // console.log('updateWindData 1', windData, 'baseData', baseData);
   let mergedWindData = merageWindSpeedAndTemperature(windData);
   // console.log('meraged windData', merageWindSpeedAndTemperature(windData));
 
-  // 使用reduce()方法遍历array1
-  const matchedResults = baseData.records?.reduce((result, obj1) => {
-    // console.log('timestamp baseData', obj1.timestamp)
-    // 将array2中的时间戳字段转换为与array1相同的格式，然后进行比较
-    const matchingObj = windData.channels[1].values.find(obj2 => {
-      // console.log('timestamp', obj2.timeStamp)
-      // 将array2中的时间戳字段转换为Date对象
-      const date2 = new Date( Number(obj2.timeStamp) * 1000);
-      // 将array1中的时间戳字段转换为Date对象
-      const date1 = new Date(obj1.timestamp);
-      // 比较两个Date对象是否相等
-      // console.log('timestamp', obj1.timestamp, obj2.timeStamp, date2, date1)
-      return date1.getTime() === date2.getTime();
-    });
-    if (matchingObj) {
-      obj1.windSpeed = matchingObj.value * 3.6;
-      result.push(obj1);
-    }
+  // // 使用reduce()方法遍历array1
+  // const matchedResults = baseData.records?.reduce((result, obj1) => {
+  //   // console.log('timestamp baseData', obj1.timestamp)
+  //   // 将array2中的时间戳字段转换为与array1相同的格式，然后进行比较
+  //   const matchingObj = windData.channels[1].values.find(obj2 => {
+  //     // console.log('timestamp', obj2.timeStamp)
+  //     // 将array2中的时间戳字段转换为Date对象
+  //     const date2 = new Date( Number(obj2.timeStamp) * 1000);
+  //     // 将array1中的时间戳字段转换为Date对象
+  //     const date1 = new Date(obj1.timestamp);
+  //     // 比较两个Date对象是否相等
+  //     // console.log('timestamp', obj1.timestamp, obj2.timeStamp, date2, date1)
+  //     return date1.getTime() === date2.getTime();
+  //   });
+  //   if (matchingObj) {
+  //     obj1.windSpeed = matchingObj.value * 3.6;
+  //     result.push(obj1);
+  //   }
     
-    return result;
-  }, []);
+  //   return result;
+  // }, []);
+  let matchedResults = [];
+  for (let item of baseData.records) {
+    const date1 = new Date(item.timestamp).getTime() / 1000;
+    // console.log(date1, mergedWindData);
+    if (mergedWindData[date1]){
+      item.windSpeed = (Number(mergedWindData[date1].windSpeed) * 3.6);
+      item.windTemperature = mergedWindData[date1].windTemperature;
+      item.cda = Number(updateCdA({
+        temperature: Number(item.windTemperature), 
+        altitude: (Number(item.altitude) * 1000).toFixed(0) || 1,
+        crr: Number(ccr),
+        dte: Number(dte),
+        windSpeed: Number(item.windSpeed).toFixed(2),
+        weight: Number(weight),
+        power: Number(item.power) || 0,
+      }));
+      matchedResults.push(item);
+    }
+  }
   console.log('match obj', matchedResults);
   return matchedResults;
   // matchedResults数组现在包含了匹配的结果
@@ -208,7 +227,7 @@ function DragWindDrop({onChange}) {
       // console.log(e.target.result, JSON.parse(reader.result))
       if (e?.target?.result) {
         let result = JSON.parse(reader.result)
-        console.log(result.channels[1]?.values);
+        // console.log(result.channels[1]?.values);
         onChange(result, file);
       }
     };

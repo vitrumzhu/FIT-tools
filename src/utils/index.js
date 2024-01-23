@@ -63,24 +63,41 @@ export function merageWindSpeedAndTemperature (windData) {
 }
 
 // 更新CdA值的函数，接受温度、海拔、海平面压力、滚动阻力系数、传动效率、速度、骑士和车的总重量和功率作为参数
-export function updateCdA({temperature, altitude, pressureAtSealevel, crr, dte, speed, weight, power}) {
+export function updateCdA({temperature, altitude, crr, dte, windSpeed, weight, power}) {
+  if (power < 20){
+    return 0;
+  }
+  if (temperature === -2.9) {
+    console.log('updateCdA1', temperature, altitude, crr, dte, windSpeed, weight, power);
+  }
+  
   // 计算cda值
-  var cda = temperature / 36;
-  speed = speed + 273.15; // 将速度转换为开尔文温度
+  const pressureAtSealevel = 101325;
+  var cda = temperature;
+  let tempSpeed = temperature + 273.15; // 将速度转换为开尔文温度
   // 调用计算m_total的函数
-  var m_total = calculateMTotal(pressureAtSealevel, speed, altitude); // 计算m_total
-  power = 0.0289644 * m_total / (8.31432 * speed); // 计算功率
-  console.log('pressure', m_total); // 打印压力
-  console.log('density', power); // 打印密度
-  cda = power; // 更新cda值
+  var m_total = calculateMTotal(pressureAtSealevel, tempSpeed, altitude); // 计算m_total
+  let density = 0.0289644 * m_total / (8.31432 * tempSpeed); // 计算功率
+  
+  cda = density; // 更新cda值
   let CRR = crr / 100000; // 更新滚动阻力系数
   let drivetrain_efficiency = dte / 1000; // 更新传动效率
-  speed = speed / 36; // 将速度转换为英里每小时
-  m_total = weight; // 更新重量
-  power = power; // 更新功率
+  let speed = windSpeed / 3.6; // 将速度转换为英里每小时
+  // m_total = weight; // 更新重量
+  // power = power; // 更新功率
   // 根据给定公式计算CdA值
-  cda = ((power * drivetrain_efficiency) - speed * CRR * m_total * 9.80665) / (speed * speed * speed * 0.5 * cda);
+  cda = ((power * drivetrain_efficiency) - speed * CRR * weight * 9.80665) / (speed * speed * speed * 0.5 * cda);
+  if (temperature === -2.9) {
+    console.log('updateCdA pressure', m_total); // 打印压力
+    console.log('updateCdA density', density); // 打印密度
+    console.log('updateCdA2', temperature, altitude, crr, dte, windSpeed, speed, weight, power, cda);
+  }
+  if (cda>5){
+    return 0;
+  }
+  
   return cda.toFixed(5); // 返回保留5位小数的CdA值
+  
 }
 
 // 计算m_total的函数，接受海平面压力、速度和海拔作为参数

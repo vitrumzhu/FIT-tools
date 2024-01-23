@@ -245,6 +245,17 @@ export default function ChartOverlayed({ data }) {
           />
           <Line
             isAnimationActive={false}
+            name="cda"
+            yAxisId="cda"
+            type="monotone"
+            dataKey="cda"
+            stroke={Tokens.cda}
+            dot={false}
+            unit={"kph"}
+            activeDot={{ r: 4 }}
+          />
+          <Line
+            isAnimationActive={false}
             name="Speed"
             yAxisId="speed"
             type="monotone"

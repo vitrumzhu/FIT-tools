@@ -41,6 +41,28 @@ const CustomTooltip = ({ active, payload, label }) => {
           </strong>
         </li>
       );
+    } else if (item.name === "cda") {
+      return (
+        <li
+          key={item.name}
+          style={{ listStyle: "none", display: "flex", alignItems: "center" }}
+        >
+          <div
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              marginRight: 8,
+              display: "block",
+              backgroundColor: item.color,
+            }}
+          />
+          {item.name}:{" "}
+          <strong>
+            {item.value} {item.unit || ""}
+          </strong>
+        </li>
+      );
     } else {
       return (
         <li
@@ -140,10 +162,28 @@ export default function ChartStacked({ data }) {
       />
       <ChartCard
         data={simplified}
+        datakey={"cda"}
+        name={"cda"}
+        unit={" "}
+        color={Tokens.cda}
+        brushStartIndex={brush.startIndex}
+        brushEndIndex={brush.endIndex}
+      />
+      <ChartCard
+        data={simplified}
         datakey={"speed"}
         name={"Speed"}
         unit={"kph"}
         color={Tokens.speed}
+        brushStartIndex={brush.startIndex}
+        brushEndIndex={brush.endIndex}
+      />
+      <ChartCard
+        data={simplified}
+        datakey={"windTemperature"}
+        name={"windTemperature"}
+        unit={"C"}
+        color={Tokens.windTemperature}
         brushStartIndex={brush.startIndex}
         brushEndIndex={brush.endIndex}
       />

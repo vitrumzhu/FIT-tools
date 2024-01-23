@@ -512,8 +512,12 @@
 					function updateCdA() {
 						var cda = Number(temperatureSlider.value) / 100,
 						speed = cda + 273.15;
+
+						console.log('updateCdA cda', cda)
+
 						temperatureOutput.innerHTML = cda.toFixed(2),
 						temperatureOutputMobile.innerHTML = cda.toFixed(2);
+						
 						var m_total = function (pressureAtSealevel, temperature, altitude) {
 							var M = 0.0289644,
 							g = 9.80665,
@@ -534,12 +538,17 @@
 						console.log('pressure', m_total),
 						console.log('density', power);
 						cda = power;
+						console.log('updateCdA cda2', cda)
 						CRR = crrSlider.value / 100000,
 						drivetrain_efficiency = Number(dteSlider.value) / 1000;
 						speed = Number(speedSlider.value) / 36,
 						m_total = Number(weightSlider.value),
 						power = Number(powerSlider.value),
+						console.log('updateCdA weight', m_total)
+						console.log('updateCdA power', power)
+						console.log('updateCdA speed', speed)
 						cda = ((power *= drivetrain_efficiency) - speed * CRR * m_total * 9.80665) / (speed * speed * speed * 0.5 * cda);
+						console.log('updateCdA cda3', cda)
 						cdaOutput.innerHTML = cda.toFixed(5)
 					}
 					powerOutput.innerHTML = powerSlider.value,
