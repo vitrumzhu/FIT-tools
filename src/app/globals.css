@@ -53,3 +53,6 @@ main {
   filter: blur(6px);
   z-index: -1;
 }
+.fileUploadWapper input {
+  width: 80%!important;
+}

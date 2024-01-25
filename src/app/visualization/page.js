@@ -97,19 +97,21 @@ export default function About() {
       >
         {!data ? <LandingHeader /> : <DataHeader data={data} />}
       </motion.div>
-      {data ? (
-        <>
-          
-          <DroppedFile
-            data={data.data}
-            name={data.fileName}
-            startOver={startOver}
-          />
-          <DragWindDrop onChange={handleWind}/>
-        </>
-      ) : (
-        <DragDrop onChange={handleChange} />
-      )}
+      <div className="w-full text-left flex items-start flex-col fileUploadWapper">
+        {data ? (
+          <>
+            
+            <DroppedFile
+              data={data.data}
+              name={data.fileName}
+              startOver={startOver}
+            />
+            <DragWindDrop onChange={handleWind}/>
+          </>
+        ) : (
+          <DragDrop onChange={handleChange} />
+        )}
+      </div>
       <div class="max-w-lg p-4 absolute top-0 right-0">
         <details class="open:bg-white dark:open:bg-slate-900 open:ring-1 open:ring-black/5 dark:open:ring-white/10 open:shadow-lg p-6 rounded-lg text-slate-900" open >
           <summary class="text-sm leading-6 text-gray-900 dark:text-white bg-white font-semibold select-none p-4 rounded-lg">CdA Calculator setup</summary>
