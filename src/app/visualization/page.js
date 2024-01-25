@@ -191,8 +191,8 @@ function updateWindData({windData, baseData, weight, ccr, dte}) {
     const date1 = new Date(item.timestamp).getTime() / 1000;
     // console.log(date1, mergedWindData);
     if (mergedWindData[date1]){
-      item.windSpeed = (Number(mergedWindData[date1].windSpeed) * 3.6);
-      item.windTemperature = mergedWindData[date1].windTemperature;
+      item.windSpeed = (Number(mergedWindData[date1].windSpeed) * 3.6) || 0;
+      item.windTemperature = mergedWindData[date1].windTemperature || 0;
       item.cda = Number(updateCdA({
         temperature: Number(item.windTemperature), 
         altitude: (Number(item.altitude) * 1000).toFixed(0) || 1,
@@ -201,9 +201,9 @@ function updateWindData({windData, baseData, weight, ccr, dte}) {
         windSpeed: Number(item.windSpeed).toFixed(2),
         weight: Number(weight),
         power: Number(item.power) || 0,
-      }));
-      matchedResults.push(item);
+      })) || 0;
     }
+    matchedResults.push(item);
   }
   console.log('match obj', matchedResults);
   return matchedResults;

@@ -164,7 +164,7 @@ export default function ChartStacked({ data }) {
         data={simplified}
         datakey={"cda"}
         name={"cda"}
-        unit={" "}
+        unit={" m²"}
         color={Tokens.cda}
         brushStartIndex={brush.startIndex}
         brushEndIndex={brush.endIndex}
