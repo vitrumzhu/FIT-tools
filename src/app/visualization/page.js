@@ -201,7 +201,7 @@ function updateWindData({windData, baseData, weight, ccr, dte}) {
         windSpeed: Number(item.windSpeed).toFixed(2),
         weight: Number(weight),
         power: Number(item.power) || 0,
-      })) || 0;
+      })) || null;
     }
     matchedResults.push(item);
   }

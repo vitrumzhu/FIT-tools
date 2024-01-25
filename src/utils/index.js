@@ -64,12 +64,12 @@ export function merageWindSpeedAndTemperature (windData) {
 
 // 更新CdA值的函数，接受温度、海拔、海平面压力、滚动阻力系数、传动效率、速度、骑士和车的总重量和功率作为参数
 export function updateCdA({temperature, altitude, crr, dte, windSpeed, weight, power}) {
-  if (power < 20){
-    return 0;
-  }
-  if (temperature === -2.9) {
-    console.log('updateCdA1', temperature, altitude, crr, dte, windSpeed, weight, power);
-  }
+  // if (power < 20){
+  //   return 0;
+  // }
+  // if (temperature === -2.9) {
+  //   console.log('updateCdA1', temperature, altitude, crr, dte, windSpeed, weight, power);
+  // }
   
   // 计算cda值
   const pressureAtSealevel = 101325;
