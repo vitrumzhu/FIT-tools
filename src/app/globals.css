@@ -16,10 +16,7 @@
   }
 }
 
-html {
-  touch-action: none;
-  touch-action: pan-y;
-}
+
 body {
   color: rgb(var(--background-end-rgb));
   background: linear-gradient(

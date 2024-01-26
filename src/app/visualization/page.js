@@ -112,9 +112,9 @@ export default function About() {
           <DragDrop onChange={handleChange} />
         )}
       </div>
-      <div class="max-w-lg p-4 absolute top-0 right-0">
-        <details class="open:bg-white dark:open:bg-slate-900 open:ring-1 open:ring-black/5 dark:open:ring-white/10 open:shadow-lg p-6 rounded-lg text-slate-900" open >
-          <summary class="text-sm leading-6 text-gray-900 dark:text-white bg-white font-semibold select-none p-4 rounded-lg">CdA Calculator setup</summary>
+      <div className="max-w-lg p-4 absolute top-0 right-0">
+        <details className="open:bg-white dark:open:bg-slate-900 open:ring-1 open:ring-black/5 dark:open:ring-white/10 open:shadow-lg rounded-lg text-slate-900" open >
+          <summary className="text-sm leading-6 text-gray-900 dark:text-white bg-white font-semibold select-none p-4 rounded-lg">CdA Calculator setup</summary>
           <RangeInput
             label="Weight of rider + bike ="
             min={6.8}
@@ -146,7 +146,7 @@ export default function About() {
           />
           
           {/* Add more RangeInput components for other input values */}
-          <div className="mt-4">
+          <div className="p-4">
             <p>Weight of rider + bike: {Number(weight).toFixed(2)} kg</p>
             <p>Rolling resistance coefficient CRR: {(ccr / 100000).toFixed(5)}</p>
             <p>Drivetrain efficiency: {(dte / 10).toFixed(2)} %</p>

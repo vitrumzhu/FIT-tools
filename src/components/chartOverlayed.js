@@ -18,6 +18,7 @@ import { Tokens } from "../styles/tokens";
 import * as _ from "lodash";
 import { LTTB } from "downsample";
 import { toHHMMSS } from "../utils";
+import ButtonSwitcher from "./ButtonSwitcher";
 
 const CustomTooltip = ({ active, payload, label }) => {
   let listItems = payload.map((item) => {
@@ -134,6 +135,11 @@ export default function ChartOverlayed({ data }) {
   const container = {
     hidden: { opacity: 0, y: 24 },
     show: { opacity: 1, y: 0, transition: { staggerChildren: 0.2 } },
+  };
+
+  const handleSwitchChange = (key) => {
+    console.log('handleSwitchChange', key);
+    setFouceMode(!key);
   };
 
   return (
@@ -364,6 +370,7 @@ export default function ChartOverlayed({ data }) {
           </ComposedChart>
         </ResponsiveContainer>
       </motion.div>
+      <ButtonSwitcher laberText={'Fouce Mode'} onChange={handleSwitchChange} />
     </>
   );
 }
