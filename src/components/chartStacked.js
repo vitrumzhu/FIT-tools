@@ -15,10 +15,33 @@ import { Tokens } from "../styles/tokens";
 import * as _ from "lodash";
 import { LTTB } from "downsample";
 import { toHHMMSS, useWindowSize } from "../utils";
-import react from "react";
+import { handleClientScriptLoad } from "next/script";
+import { list } from "postcss";
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, callback }) => {
+  const [clickDisabled, setClickDisabled] = React.useState(false);
+  const [selectItem, setSelectItem] = React.useState({})
+  const handleClick = (item) => {
+    if (!clickDisabled) {
+      // 在点击时执行您的函数
+      if (callback && item?.payload?.timestamp !== selectItem.payload?.timestamp ) {
+        callback(item);
+        // console.log('handleClick', item);
+      }
+      // 设置clickDisabled为true，防止一秒内再次触发
+      setClickDisabled(true);
+
+      // 一秒后重置clickDisabled为false，允许再次触发
+      setTimeout(() => {
+        setClickDisabled(false);
+        setSelectItem(item);
+      }, 1000);
+    }
+  };
   let listItems = payload.map((item) => {
+    if (item.name === 'Power') {
+      handleClick(item);
+    }
     if (item.name == "Altitude") {
       return (
         <li
@@ -110,7 +133,7 @@ const container = {
 
 const item = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } };
 
-export default function ChartStacked({ data }) {
+export default function ChartStacked({ data, callback }) {
   const size = useWindowSize();
   const [resolution, setResolution] = React.useState(200);
   const [scale, setScale] = React.useState(1);
@@ -150,6 +173,7 @@ export default function ChartStacked({ data }) {
         color={Tokens.power}
         brushStartIndex={brush.startIndex}
         brushEndIndex={brush.endIndex}
+        callback={callback}
       />
       <ChartCard
         data={simplified}
@@ -217,7 +241,14 @@ const ChartCard = ({
   color,
   brushStartIndex,
   brushEndIndex,
+  callback
 }) => {
+  const handleTipsUpdate = (item) => {
+    // console.log('handleTipsUpdate', item);
+    if (callback) {
+      callback(item);
+    }
+  };
   return (
     <motion.div
       variants={item}
@@ -266,7 +297,7 @@ const ChartCard = ({
 
           <Tooltip
             cursor={{ stroke: "white" }}
-            content={<CustomTooltip />}
+            content={<CustomTooltip  callback={handleTipsUpdate}/>}
             isAnimationActive={false}
           />
           <CartesianGrid

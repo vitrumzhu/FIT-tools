@@ -23,6 +23,8 @@ export default function About() {
   const [dte, setDte] = React.useState(965);
   const [weight, setWeight] = React.useState(80);
   const [isShowingMap, setIsShowingMap] = React.useState(false);
+  const [activePoint, setActivePoint] = React.useState({});
+  const [tipsItem, setTipsItem] = React.useState({});
   
   // Add state for other input values
 
@@ -82,6 +84,11 @@ export default function About() {
     // console.log('isShowingMap', isShowingMap);
   }
 
+  const handleTipsUpdate = (item) => {
+    setTipsItem(item);
+    // console.log('tipsItem', item);
+  }
+
   // Framer motion variants for subtle animation
   const variants = {
     hidden: { opacity: 0, y: 24 },
@@ -113,9 +120,10 @@ export default function About() {
               name={data.fileName}
               startOver={startOver}
               startMap={startMap}
+              callback={handleTipsUpdate}
             />
             <DragWindDrop onChange={handleWind}/>
-            <LeafMap isShowingMap={isShowingMap} />
+            <LeafMap isShowingMap={isShowingMap} gpsData={data} activePoint={tipsItem} />
           </>
         ) : (
           <DragDrop onChange={handleChange} />
@@ -312,12 +320,17 @@ function DropZone({ }) {
   );
 }
 
-function DroppedFile({ startOver, data, startMap }) {
+function DroppedFile({ startOver, data, startMap, callback }) {
   const [stacked, setStacked] = React.useState(true);
 
   let handleViewChange = (value) => {
     setStacked(value === "stacked" ? true : false);
   };
+  const handleTipsUpdate = (item) => {
+    // console.log('handleTipsUpdate', item);
+    callback(item);
+  };
+
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full flex items-stretch">
@@ -341,9 +354,9 @@ function DroppedFile({ startOver, data, startMap }) {
       </div>
       <div className="w-full">
         {stacked ? (
-          <ChartStacked data={data} />
+          <ChartStacked data={data} callback={handleTipsUpdate} />
         ) : (
-          <ChartOverlayed data={data} />
+          <ChartOverlayed data={data} callback={handleTipsUpdate} />
         )}
       </div>
     </div>
