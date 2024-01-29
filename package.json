@@ -16,10 +16,13 @@
   "dependencies": {
     "downsample": "^1.4.0",
     "framer-motion": "^10.16.9",
+    "leaflet": "^1.9.4",
     "next": "14.0.3",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.10",
+    "react-draggable": "^4.4.6",
+    "react-leaflet": "^4.2.1",
     "recharts": "^2.1.9"
   },
   "devDependencies": {

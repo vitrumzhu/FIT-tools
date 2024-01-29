@@ -92,7 +92,7 @@ export function updateCdA({temperature, altitude, crr, dte, windSpeed, weight, p
     console.log('updateCdA density', density); // 打印密度
     console.log('updateCdA2', temperature, altitude, crr, dte, windSpeed, speed, weight, power, cda);
   }
-  if (cda>5){
+  if (cda>15 || cda<0) {
     return 0;
   }
   
