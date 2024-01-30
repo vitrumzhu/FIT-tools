@@ -23,7 +23,8 @@
     "react-drag-drop-files": "^2.3.10",
     "react-draggable": "^4.4.6",
     "react-leaflet": "^4.2.1",
-    "recharts": "^2.1.9"
+    "recharts": "^2.1.9",
+    "sass": "^1.70.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.7",

@@ -15,6 +15,8 @@ import LeafMap from '../../components/leafMap';
 const fileTypes = ["FIT"];
 const windFileTypes = ["TJF"];
 
+
+
 export default function About() {
   const [data, setData] = React.useState(null);
   const [windData, setWindDate] = React.useState(null);
