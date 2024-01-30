@@ -11,13 +11,13 @@ const DEFAULT_CENTER = [31.235929042252015, 121.48053886017651]
 const LeafMap = ({isShowingMap, gpsData, activePoint}) => {
   const nodeRef = useRef(null);
   
-  // const [newCenter, setNewCenter] = useState(DEFAULT_CENTER)
+  const [newCenter, setNewCenter] = useState(DEFAULT_CENTER)
   const [selectedReview, setSelectedReview] = useState({location:DEFAULT_CENTER})
 
   useEffect(() => {
     if (activePoint && activePoint?.payload) {
       console.log('LeafMap', activePoint?.payload);
-      // setNewCenter([activePoint?.payload.position_lat, activePoint?.payload.position_long]);
+      setNewCenter([activePoint?.payload.position_lat, activePoint?.payload.position_long]);
       setSelectedReview({location:[activePoint?.payload.position_lat, activePoint?.payload.position_long]});
     }
   }, [activePoint]);
@@ -36,7 +36,7 @@ const LeafMap = ({isShowingMap, gpsData, activePoint}) => {
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                       attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                     />
-                    <Marker position={DEFAULT_CENTER}>
+                    <Marker position={newCenter}>
                       <Popup>
                         A pretty CSS3 popup. <br /> Easily customizable.
                       </Popup>
