@@ -35,7 +35,7 @@ const CustomTooltip = ({ active, payload, label, callback }) => {
       setTimeout(() => {
         setClickDisabled(false);
         setSelectItem(item);
-      }, 1000);
+      }, 300);
     }
   };
   let listItems = payload.map((item) => {

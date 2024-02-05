@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Draggable from 'react-draggable';
 
 import Map from './map';
+import { LTTB } from "downsample";
 
 const DEFAULT_CENTER = [31.235929042252015, 121.48053886017651]
 
@@ -13,14 +14,46 @@ const LeafMap = ({isShowingMap, gpsData, activePoint}) => {
   
   const [newCenter, setNewCenter] = useState(DEFAULT_CENTER)
   const [selectedReview, setSelectedReview] = useState({location:DEFAULT_CENTER})
+  const [polygonPoints, setPolygonPoints] = useState([])
+  const [resolution, setResolution] = useState(1000);
+  const purpleOptions = { color: 'purple' }
+
+  
+
 
   useEffect(() => {
     if (activePoint && activePoint?.payload) {
       console.log('LeafMap', activePoint?.payload);
       setNewCenter([activePoint?.payload.position_lat, activePoint?.payload.position_long]);
-      setSelectedReview({location:[activePoint?.payload.position_lat, activePoint?.payload.position_long]});
+      // setSelectedReview({location:[activePoint?.payload.position_lat, activePoint?.payload.position_long]});
     }
   }, [activePoint]);
+
+  useEffect(() => {
+    if  (gpsData?.data?.records) {
+      // this is a workaround until I figure out how to use the advanced API from https://github.com/janjakubnanista/downsample#advanced-api
+      console.log('LeafMap,gpsData', gpsData?.data?.records);
+      let records = gpsData?.data?.records;
+      let dataPrepForLTTB = records.map((record) => {
+        // In addition to the x and y keys (so LTTB func doesn't fail,
+        // also let it smooth out additional data points for this FIT file.
+        return { x: record.elapsed_time, y: 0, ...record };
+      });
+
+      let simplified = LTTB(dataPrepForLTTB, resolution);
+      let points = []
+      for (let index = 0; index < simplified.length; index++) {
+        const element = simplified[index];
+        if (element.position_lat) {
+          points.push([element.position_lat, element.position_long]);
+        }
+      }
+      setPolygonPoints(points);
+      console.log('polygonPoints', points);
+    }
+  }, []);
+
+  
 
   return (
     <>
@@ -30,7 +63,7 @@ const LeafMap = ({isShowingMap, gpsData, activePoint}) => {
             <div className="handle">Map</div>
             <div className="overflow-hidden">
               <Map width="800" height="400" center={DEFAULT_CENTER} zoom={14} selectedReview={selectedReview}>
-                {({ TileLayer, Marker, Popup }) => (
+                {({ TileLayer, Marker, Popup, Polyline }) => (
                   <>
                     <TileLayer
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -41,6 +74,7 @@ const LeafMap = ({isShowingMap, gpsData, activePoint}) => {
                         A pretty CSS3 popup. <br /> Easily customizable.
                       </Popup>
                     </Marker>
+                    <Polyline pathOptions={purpleOptions} positions={polygonPoints} />
                   </>
                 )}
               </Map>

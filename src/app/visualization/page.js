@@ -27,6 +27,7 @@ export default function About() {
   const [isShowingMap, setIsShowingMap] = React.useState(false);
   const [activePoint, setActivePoint] = React.useState({});
   const [tipsItem, setTipsItem] = React.useState({});
+  const [polygonData, setPolygonData] = React.useState([]);
   
   // Add state for other input values
 
