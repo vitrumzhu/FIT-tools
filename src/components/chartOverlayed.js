@@ -20,8 +20,30 @@ import { LTTB } from "downsample";
 import { toHHMMSS } from "../utils";
 import ButtonSwitcher from "./ButtonSwitcher";
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, callback }) => {
+  const [clickDisabled, setClickDisabled] = React.useState(false);
+  const [selectItem, setSelectItem] = React.useState({})
+  const handleClick = (item) => {
+    if (!clickDisabled) {
+      // 在点击时执行您的函数
+      if (callback && item?.payload?.timestamp !== selectItem.payload?.timestamp ) {
+        callback(item);
+        // console.log('handleClick', item);
+      }
+      // 设置clickDisabled为true，防止一秒内再次触发
+      setClickDisabled(true);
+
+      // 一秒后重置clickDisabled为false，允许再次触发
+      setTimeout(() => {
+        setClickDisabled(false);
+        setSelectItem(item);
+      }, 300);
+    }
+  };
   let listItems = payload.map((item) => {
+    if (item.name === 'Power') {
+      handleClick(item);
+    }
     if (item.name == "Altitude") {
       return (
         <li
@@ -106,7 +128,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export default function ChartOverlayed({ data }) {
+export default function ChartOverlayed({ data, callback }) {
   const [resolution, setResolution] = React.useState(1000);
   const [fouceMode, setFouceMode] = React.useState(true);
 
@@ -120,6 +142,13 @@ export default function ChartOverlayed({ data }) {
   );
 
   console.log(uniqueKeys);
+
+  const handleTipsUpdate = (item) => {
+    // console.log('handleTipsUpdate', item);
+    if (callback) {
+      callback(item);
+    }
+  };
 
   // this is a workaround until I figure out how to use the advanced API from https://github.com/janjakubnanista/downsample#advanced-api
   let dataPrepForLTTB = records.map((record) => {
@@ -255,7 +284,7 @@ export default function ChartOverlayed({ data }) {
 
             <Tooltip
               cursor={{ stroke: "white" }}
-              content={<CustomTooltip />}
+              content={<CustomTooltip  callback={handleTipsUpdate}/>}
               isAnimationActive={false}
               payload={[{ name: "power", unit: "W" }]}
             />
