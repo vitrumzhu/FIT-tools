@@ -7,7 +7,7 @@ const AvatarCard = ({info, activeMember, index}) => {
 
   return (
     <div className="flex items-center justify-start gap-4 bg-white rounded dark:bg-gray-600 p-4 mb-4">
-      <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+      <div className="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
         {/* <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg> */}
         <Image src={`/avataaars_${index}.png`} width={120} height={120}></Image>
       </div>

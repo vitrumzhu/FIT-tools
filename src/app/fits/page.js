@@ -139,9 +139,9 @@ export default function Fits() {
                   {activeTimeMemberFitItemList.map((item, index) => {
                     console.log('activeTimeMemberFitItemList Marker', index, `avataaars_${index}.png`)
                     return (
-                      <Marker position={[item.position_lat, item.position_long]} key={item.position_lat} icon={iconMap[index]}>
+                      <Marker position={[item.position_lat, item.position_long]} key={`${item.position_lat}${item.timer_time}${item.speed}`} icon={iconMap[index]}>
                         <Popup>
-                          A pretty CSS3 popup. <br /> Easily customizable.
+                          天呐，累死了！<br /> 我被拉爆了！
                         </Popup>
                       </Marker>
                     );
