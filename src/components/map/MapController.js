@@ -7,14 +7,14 @@ const MapController = ({selectedReview}) => {
   const DEFAULT_CENTER = [31.235929042252015, 121.48053886017651];
 
   const flyTo = (location) => {
-    map.flyTo(location, 12, {
+    map.flyTo(location, 13, {
       animate: true,
       duration: flyToDuration,
     });
   };
 
   const flyToCenter = () => {
-    map.flyTo(DEFAULT_CENTER, 12, {
+    map.flyTo(DEFAULT_CENTER, 13, {
       animate: true,
       duration: flyToDuration,
     });
