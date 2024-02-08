@@ -11,6 +11,7 @@ import TimeLine from '../../components/timeLine';
 
 import { LTTB } from "downsample";
 import {GetCenterFromDegrees} from '../../utils';
+import L from 'leaflet';
 
 import { merageWindSpeedAndTemperature, updateCdA } from "../../utils";
 // File dropper file extension config
@@ -37,6 +38,14 @@ export default function Fits() {
   const handleCloseAddNewPop = () => {
     setIsShowAdd(false);
   };
+
+  const iconMap = [
+    L.icon({ iconUrl: "/avataaars_0.png",iconSize: [42, 42],}),
+    L.icon({ iconUrl: "/avataaars_1.png",iconSize: [42, 42], }),
+    L.icon({ iconUrl: "/avataaars_2.png",iconSize: [42, 42], }),
+    L.icon({ iconUrl: "/avataaars_3.png",iconSize: [42, 42], }),
+    L.icon({ iconUrl: "/avataaars_4.png",iconSize: [42, 42], }),
+  ]
 
   const handleAddNewActivity = (e) => {
     // console.log('handleAddNewActivity', e, members);
@@ -127,9 +136,10 @@ export default function Fits() {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                   />
-                  {activeTimeMemberFitItemList.map((item) => {
+                  {activeTimeMemberFitItemList.map((item, index) => {
+                    console.log('activeTimeMemberFitItemList Marker', index, `avataaars_${index}.png`)
                     return (
-                      <Marker position={[item.position_lat, item.position_long]} key={item.position_lat}>
+                      <Marker position={[item.position_lat, item.position_long]} key={item.position_lat} icon={iconMap[index]}>
                         <Popup>
                           A pretty CSS3 popup. <br /> Easily customizable.
                         </Popup>
@@ -141,12 +151,13 @@ export default function Fits() {
                 </>
               )}
               </DynamicMap>
+
               <><TimeLine data={memberSimplified} callback={handleTimeSelect}></TimeLine></>
         </div>) : null}
           
           <div className="mb-6 lg:mb-16 md:grid-cols-1 gap-4">
             {members.map((member, index) =>(
-              <AvatarCard key={index} info={member} activeMember={activeTimeMemberFitItemList[index]}/>
+              <AvatarCard key={index} index={index} info={member} activeMember={activeTimeMemberFitItemList[index]}/>
             ))}
             <div className="mx-auto max-w-md text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4 mt-4">
               <header>

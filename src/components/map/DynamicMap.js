@@ -18,16 +18,16 @@ const Map = ({ children, className, width, height, selectedReview, ...rest }) =>
     mapClassName = `aaa`;
   }
 
-  useEffect(() => {
-    (async function init() {
-      delete Leaflet.Icon.Default.prototype._getIconUrl;
-      Leaflet.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      });
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async function init() {
+  //     delete Leaflet.Icon.Default.prototype._getIconUrl;
+  //     Leaflet.Icon.Default.mergeOptions({
+  //       iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  //       iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  //       shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  //     });
+  //   })();
+  // }, []);
 
   return (
     <>
