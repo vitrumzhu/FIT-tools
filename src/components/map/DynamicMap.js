@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 
 import {MapController} from './MapController';
 
+
 import styles from './Map.module.scss';
 
 const { MapContainer, Marker, Popup } = ReactLeaflet;
@@ -41,7 +42,7 @@ const Map = ({ children, className, width, height, selectedReview, activeMember,
       <MapContainer className={mapClassName} ref={e => { mapInstance = e }} {...rest}>
         {children(ReactLeaflet, Leaflet)}
         <MapController
-          selectedReview={selectedReview}
+          selectedReview={selectedReview} activeMember={activeMember}
         />
         {activeMember && activeMember.map((item, index) => {
           console.log('activeMember Marker', index, `avataaars_${index}.png`)

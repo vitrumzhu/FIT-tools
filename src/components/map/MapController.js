@@ -1,13 +1,14 @@
 import React, { FC, useEffect } from "react";
 import { useMap } from "react-leaflet";
+import {GetCenterFromDegrees} from '../../utils';
 
-const MapController = ({selectedReview}) => {
+const MapController = ({selectedReview, activeMember}) => {
   const map = useMap();
-  const flyToDuration = 1.5;
+  const flyToDuration = 0.5;
   const DEFAULT_CENTER = [31.235929042252015, 121.48053886017651];
 
   const flyTo = (location) => {
-    map.flyTo(location, 13, {
+    map.flyTo(location, 15, {
       animate: true,
       duration: flyToDuration,
     });
@@ -27,6 +28,23 @@ const MapController = ({selectedReview}) => {
       flyToCenter();
     }
   }, [selectedReview])
+
+  useEffect(() => {
+    if (activeMember) {
+      if (activeMember.length < 2) {
+        flyTo([activeMember[0].position_lat ,activeMember[0].position_long]);
+      } else {
+        let points = [];
+        for (let index = 0; index < activeMember.length; index++) {
+          const element = activeMember[index];
+          points.push([element.position_lat, element.position_long])
+        }
+        let newMapCenter = GetCenterFromDegrees(points);
+        flyTo(newMapCenter);
+      }
+      
+    };
+  }, [activeMember]);
 
   return null;
 }
