@@ -43,7 +43,7 @@ const Map = ({ children, className, width, height, selectedReview, activeMember,
         <MapController
           selectedReview={selectedReview}
         />
-        {activeMember.map((item, index) => {
+        {activeMember && activeMember.map((item, index) => {
           console.log('activeMember Marker', index, `avataaars_${index}.png`)
           return (
             <Marker position={[item.position_lat, item.position_long]} key={`${item.position_lat}${item.timer_time}${item.speed}${index}`} 
