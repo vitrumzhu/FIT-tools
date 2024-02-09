@@ -160,7 +160,7 @@ export default function Fits() {
             {members.map((member, index) =>(
               <AvatarCard key={index} index={index} info={member} activeMember={activeTimeMemberFitItemList[index]}/>
             ))}
-            <div className="mx-auto max-w-sm text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4 mt-4">
+            <div className=" max-w-sm text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4 mt-4">
               <header>
                 <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">Upload</h2>
     
