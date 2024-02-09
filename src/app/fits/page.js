@@ -3,17 +3,16 @@
 import Head from "next/head";
 
 import React, { useState, useEffect } from "react";
+import dynamic from 'next/dynamic'
 
 import NewActivity from '../../components/newActivity';
 import AvatarCard from '../../components/avatarCard';
-import DynamicMap from '../../components/map';
+import Map from '../../components/map';
 import TimeLine from '../../components/timeLine';
 
 import { LTTB } from "downsample";
 import {GetCenterFromDegrees} from '../../utils';
-import L from 'leaflet';
 
-import { merageWindSpeedAndTemperature, updateCdA } from "../../utils";
 // File dropper file extension config
 const fileTypes = ["FIT"];
 const DEFAULT_CENTER = [31.235929042252015, 121.48053886017651]
@@ -39,13 +38,13 @@ export default function Fits() {
     setIsShowAdd(false);
   };
 
-  const iconMap = [
-    L.icon({ iconUrl: "avataaars_0.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    L.icon({ iconUrl: "avataaars_1.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    L.icon({ iconUrl: "avataaars_2.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    L.icon({ iconUrl: "avataaars_3.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    L.icon({ iconUrl: "avataaars_4.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-  ]
+  // const iconMap = [
+  //   L.icon({ iconUrl: "avataaars_0.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+  //   L.icon({ iconUrl: "avataaars_1.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+  //   L.icon({ iconUrl: "avataaars_2.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+  //   L.icon({ iconUrl: "avataaars_3.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+  //   L.icon({ iconUrl: "avataaars_4.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+  // ]
 
   const handleAddNewActivity = (e) => {
     // console.log('handleAddNewActivity', e, members);
@@ -130,28 +129,18 @@ export default function Fits() {
         {members && members.length >0 && !isShowAdd ? (
           <div className="col-span-4">
            
-            <DynamicMap width="800" height="300" center={mapCenter} zoom={12} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
+            <Map width="800" height="300" center={mapCenter} zoom={12} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
               {({ TileLayer, Marker, Popup, Polyline }) => (
                 <>
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                   />
-                  {activeTimeMemberFitItemList.map((item, index) => {
-                    console.log('activeTimeMemberFitItemList Marker', index, `avataaars_${index}.png`)
-                    return (
-                      <Marker position={[item.position_lat, item.position_long]} key={`${item.position_lat}${item.timer_time}${item.speed}${index}`} icon={iconMap[index]}>
-                        <Popup>
-                          天呐，累死了！<br /> 我被拉爆了！
-                        </Popup>
-                      </Marker>
-                    );
-                    
-                  })}
+                  
                   <Polyline pathOptions={purpleOptions} positions={polygonPoints} />
                 </>
               )}
-              </DynamicMap>
+              </Map>
               <><TimeLine data={memberSimplified} callback={handleTimeSelect}></TimeLine></>
               
         </div>) : null}
