@@ -26,6 +26,9 @@ const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log('NewActivity handleChange', value, fileInfo, fitInfo);
+    if (!fileInfo) {
+      return false;
+    }
     handleAddNewActivity({
       name: value,
       file: fileInfo,
@@ -140,9 +143,10 @@ const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol
                           <div className="flex items-center justify-center w-full">
                             <DragDrop onChange={handleChange} />
                           </div>
+                          {fileInfo?.name ? (
                           <div className="w-full text-left block">
                             <button type="text" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleSubmit}>Submit</button>
-                          </div>
+                          </div>) : null}
                       </form>
                   </div>
               </div>
