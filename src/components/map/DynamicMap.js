@@ -13,11 +13,11 @@ const { MapContainer, Marker, Popup } = ReactLeaflet;
 const Map = ({ children, className, width, height, selectedReview, activeMember, ...rest }) => {
 
   const [iconMap, setIconMap] = useState([
-    Leaflet.icon({ iconUrl: "avataaars_0.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    Leaflet.icon({ iconUrl: "avataaars_1.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    Leaflet.icon({ iconUrl: "avataaars_2.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    Leaflet.icon({ iconUrl: "avataaars_3.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-    Leaflet.icon({ iconUrl: "avataaars_4.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+    Leaflet.icon({ iconUrl: "avataaars_0.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
+    Leaflet.icon({ iconUrl: "avataaars_1.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
+    Leaflet.icon({ iconUrl: "avataaars_2.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
+    Leaflet.icon({ iconUrl: "avataaars_3.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
+    Leaflet.icon({ iconUrl: "avataaars_4.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
   ]);
   // const mapEl = useRef(null);
   let mapInstance = useRef(null);

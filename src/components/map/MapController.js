@@ -8,10 +8,13 @@ const MapController = ({selectedReview, activeMember}) => {
   const DEFAULT_CENTER = [31.235929042252015, 121.48053886017651];
 
   const flyTo = (location) => {
-    map.flyTo(location, 15, {
-      animate: true,
-      duration: flyToDuration,
-    });
+    if (location && location.length > 0) {
+      let level = map.getZoom()
+      map.flyTo(location, level, {
+        animate: true,
+        duration: flyToDuration,
+      });
+    }
   };
 
   const flyToCenter = () => {
@@ -31,7 +34,7 @@ const MapController = ({selectedReview, activeMember}) => {
 
   useEffect(() => {
     if (activeMember) {
-      if (activeMember.length < 2) {
+      if (activeMember.length < 2 && activeMember[0]?.position_lat) {
         flyTo([activeMember[0].position_lat ,activeMember[0].position_long]);
       } else {
         let points = [];

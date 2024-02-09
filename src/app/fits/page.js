@@ -129,7 +129,7 @@ export default function Fits() {
         {members && members.length >0 && !isShowAdd ? (
           <div className="col-span-4">
            
-            <Map width="800" height="300" center={mapCenter} zoom={12} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
+            <Map width="800" height="400" center={mapCenter} zoom={12} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
               {({ TileLayer, Marker, Popup, Polyline }) => (
                 <>
                   <TileLayer
@@ -146,28 +146,23 @@ export default function Fits() {
         </div>) : null}
           
           <div className="w-full col-span-4 flex">
-            {members.map((member, index) =>(
-              <AvatarCard key={index} index={index} info={member} activeMember={activeTimeMemberFitItemList[index]}/>
-            ))}
-            <div className=" max-w-sm text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4 mt-4">
-              <header>
-                <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">Upload</h2>
-    
-                <p className="mt-4 text-gray-500">
-                  By adding ride Fit information, we can see how each member performs at an event.
-                </p>
-              </header>
+            
+            <div className="max-w-sm text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4">
     
               <a
                 href="#"
                 className="mt-8 inline-block rounded border border-gray-900 bg-gray-900 px-12 py-3 text-sm font-medium text-white transition hover:shadow focus:outline-none focus:ring"
                 onClick={handleOpenAddNewPop}
               >
-                Add
+                Add Member
               </a>
             </div>
           </div>
-          
+          <div className="w-full absolute t-10 r-10 flex z-[9999] justify-end pr-8 pt-2 pointer-events-none">
+            {members.map((member, index) =>(
+              <AvatarCard key={index} index={index} info={member} activeMember={activeTimeMemberFitItemList[index]}/>
+            ))}
+          </div>
         </div>
       </div>
     </section>
