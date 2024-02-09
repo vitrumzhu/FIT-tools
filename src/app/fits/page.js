@@ -40,11 +40,11 @@ export default function Fits() {
   };
 
   const iconMap = [
-    L.icon({ iconUrl: "/avataaars_0.png",iconSize: [42, 42],}),
-    L.icon({ iconUrl: "/avataaars_1.png",iconSize: [42, 42], }),
-    L.icon({ iconUrl: "/avataaars_2.png",iconSize: [42, 42], }),
-    L.icon({ iconUrl: "/avataaars_3.png",iconSize: [42, 42], }),
-    L.icon({ iconUrl: "/avataaars_4.png",iconSize: [42, 42], }),
+    L.icon({ iconUrl: "avataaars_0.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+    L.icon({ iconUrl: "avataaars_1.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+    L.icon({ iconUrl: "avataaars_2.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+    L.icon({ iconUrl: "avataaars_3.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
+    L.icon({ iconUrl: "avataaars_4.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
   ]
 
   const handleAddNewActivity = (e) => {
@@ -125,11 +125,12 @@ export default function Fits() {
         <><NewActivity handleCloseAddNewPop={handleCloseAddNewPop} handleAddNewActivity={handleAddNewActivity} /></>
       ) : null}
       
-      <div className="mx-auto max-w-screen-xl px-0 py-0 sm:px-6 sm:py-12 lg:px-8">
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
+      <div className="mx-auto px-0 py-0 sm:px-6 ">
+        <div className="grid grid-cols-1 gap-1 lg:grid-cols-4 lg:items-stretch">
         {members && members.length >0 && !isShowAdd ? (
-          <div className="col-span-2">
-            <DynamicMap width="800" height="600" center={mapCenter} zoom={13} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
+          <div className="col-span-4">
+           
+            <DynamicMap width="800" height="300" center={mapCenter} zoom={12} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
               {({ TileLayer, Marker, Popup, Polyline }) => (
                 <>
                   <TileLayer
@@ -139,7 +140,7 @@ export default function Fits() {
                   {activeTimeMemberFitItemList.map((item, index) => {
                     console.log('activeTimeMemberFitItemList Marker', index, `avataaars_${index}.png`)
                     return (
-                      <Marker position={[item.position_lat, item.position_long]} key={`${item.position_lat}${item.timer_time}${item.speed}`} icon={iconMap[index]}>
+                      <Marker position={[item.position_lat, item.position_long]} key={`${item.position_lat}${item.timer_time}${item.speed}${index}`} icon={iconMap[index]}>
                         <Popup>
                           天呐，累死了！<br /> 我被拉爆了！
                         </Popup>
@@ -151,15 +152,15 @@ export default function Fits() {
                 </>
               )}
               </DynamicMap>
-
               <><TimeLine data={memberSimplified} callback={handleTimeSelect}></TimeLine></>
+              
         </div>) : null}
           
-          <div className="mb-6 lg:mb-16 md:grid-cols-1 gap-4">
+          <div className="w-full col-span-4 flex">
             {members.map((member, index) =>(
               <AvatarCard key={index} index={index} info={member} activeMember={activeTimeMemberFitItemList[index]}/>
             ))}
-            <div className="mx-auto max-w-md text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4 mt-4">
+            <div className="mx-auto max-w-sm text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4 mt-4">
               <header>
                 <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">Upload</h2>
     
