@@ -11,7 +11,7 @@ import Map from '../../components/map';
 import TimeLine from '../../components/timeLine';
 
 import { LTTB } from "downsample";
-import {GetCenterFromDegrees} from '../../utils';
+import {GetCenterFromDegrees, useWindowSize} from '../../utils';
 
 // File dropper file extension config
 const fileTypes = ["FIT"];
@@ -29,6 +29,8 @@ export default function Fits() {
   const [activeTime, setActiveTime] = useState();
   const [memberFitList, setMemberFitList] = useState([]);
   const [activeTimeMemberFitItemList, setActiveTimeMemberFitItemList] = useState([]);
+  const [mapViewType, setMapViewType] = useState('400');
+
 
   const handleOpenAddNewPop = () => {
     setIsShowAdd(true);
@@ -38,13 +40,16 @@ export default function Fits() {
     setIsShowAdd(false);
   };
 
-  // const iconMap = [
-  //   L.icon({ iconUrl: "avataaars_0.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-  //   L.icon({ iconUrl: "avataaars_1.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-  //   L.icon({ iconUrl: "avataaars_2.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-  //   L.icon({ iconUrl: "avataaars_3.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-  //   L.icon({ iconUrl: "avataaars_4.png",iconSize: [42, 42], popupAnchor: [0, -40], iconAnchor: [21, 42],}),
-  // ]
+  const size = useWindowSize();
+
+  React.useEffect(() => {
+    if (size.width >= 800) {
+      setMapViewType('400');
+    } else {
+      setMapViewType('1200');
+    }
+    // if(size.width > )
+  }, [size]);
 
   const handleAddNewActivity = (e) => {
     // console.log('handleAddNewActivity', e, members);
@@ -124,12 +129,12 @@ export default function Fits() {
         <><NewActivity handleCloseAddNewPop={handleCloseAddNewPop} handleAddNewActivity={handleAddNewActivity} /></>
       ) : null}
       
-      <div className="mx-auto px-0 py-0 sm:px-6 ">
+      <div className="mx-auto px-0 py-0 sm:px-6">
         <div className="grid grid-cols-1 gap-1 lg:grid-cols-4 lg:items-stretch">
         {members && members.length >0 && !isShowAdd ? (
           <div className="col-span-4">
            
-            <Map width="800" height="400" center={mapCenter} zoom={12} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
+            <Map width="800" height={mapViewType} center={mapCenter} zoom={14} selectedReview={selectedReview} activeMember={activeTimeMemberFitItemList}>
               {({ TileLayer, Marker, Popup, Polyline }) => (
                 <>
                   <TileLayer
@@ -140,21 +145,21 @@ export default function Fits() {
                   <Polyline pathOptions={purpleOptions} positions={polygonPoints} />
                 </>
               )}
-              </Map>
-              <><TimeLine data={memberSimplified} callback={handleTimeSelect}></TimeLine></>
+            </Map>
+            <><TimeLine data={memberSimplified} callback={handleTimeSelect}></TimeLine></>
               
         </div>) : null}
           
           <div className="w-full col-span-4 flex">
             
-            <div className="max-w-sm text-center lg:text-left bg-white rounded dark:bg-gray-600 p-4">
+            <div className="max-w-sm text-center lg:text-left bg-white rounded dark:bg-gray-600 m-4">
     
               <a
                 href="#"
-                className="mt-8 inline-block rounded border border-gray-900 bg-gray-900 px-12 py-3 text-sm font-medium text-white transition hover:shadow focus:outline-none focus:ring"
+                className="m-4 inline-block rounded border border-gray-900 bg-gray-900 px-12 py-3 text-sm font-medium text-white transition hover:shadow focus:outline-none focus:ring"
                 onClick={handleOpenAddNewPop}
               >
-                Add Member
+                + Add Member
               </a>
             </div>
           </div>
