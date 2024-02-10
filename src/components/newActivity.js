@@ -114,7 +114,7 @@ const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol
   }
 
   return (
-    <div className="p-4">
+    <div className="p-10">
       
 
       <div id="authentication-modal" tabIndex="-1" aria-hidden="true" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full">
