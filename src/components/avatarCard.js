@@ -12,7 +12,13 @@ const AvatarCard = ({info, activeMember, index}) => {
     purple: 'bg-purple-400',
     full: 'bg-red-800',
   }
+  const fontColor = {
+    gary: 'text-gray-900',
+    white: 'text-white-900',
+  }
   let cardColor = bgColor.base;
+  let textColor = fontColor.gary;
+
   if (activeMember?.power){
     let power = Number(activeMember.power)
     switch (true) {
@@ -32,6 +38,7 @@ const AvatarCard = ({info, activeMember, index}) => {
         cardColor = bgColor.purple;
         break;
       case power >= 1000 && power < 5000:
+        textColor = fontColor.white;
         cardColor = bgColor.full;
         break;
       default:
@@ -42,15 +49,15 @@ const AvatarCard = ({info, activeMember, index}) => {
   
   return (
     <div className={`flex items-center justify-start text-center lg:text-left  rounded-full  mr-2 max-w-md p-1 drop-shadow-md ${cardColor} sm:lg-6`}>
-      <div className="relative w-30 h-auto overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 m-1 mb-3">
+      <div className="relative w-30 h-auto overflow-hidden bg-gray-600 rounded-full dark:bg-gray-600 m-1 mb-3">
         {/* <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg> */}
         <Image src={`/avataaars_${index}.png`} width={88} height={88}></Image>
       </div>
       <div className="font-medium dark:text-white w-full break-all">
           
           {activeMember? (<>
-            <div className="text-2xl text-gray-900 dark:text-gray-400 w-full">{activeMember.power}w</div>
-            <span className="text-sm text-gray-500 dark:text-gray-400 inline">Speed: { Math.round(activeMember.speed * 100) / 100} </span>
+            <div className={`text-2xl ${textColor} w-full`}>{activeMember.power}w</div>
+            <span className={`text-sm ${textColor} inline`}>{ Math.round(activeMember.speed * 100) / 100} kph</span>
             {/* <span className="text-sm text-gray-500 dark:text-gray-400 inline">Cadence: {activeMember.cadence}</span> */}
           </>
           ) : null}
