@@ -187,3 +187,34 @@ export function GetCenterFromDegrees(data){
 
     return new Array(newX, newY);
 }
+
+export const avataList = [
+  {
+    name: '0',
+    url: 'avataaars_0.png',
+  },
+  {
+    name: '1',
+    url: 'avataaars_1.png',
+  },
+  {
+    name: '2',
+    url: 'avataaars_2.png',
+  },
+  {
+    name: '3',
+    url: 'avataaars_3.png',
+  },
+  {
+    name: '4',
+    url: 'avataaars_4.png',
+  },
+  {
+    name: '5',
+    url: 'avataaars_5.png',
+  },
+  {
+    name: 'judy',
+    url: 'avata_judy.png',
+  },
+];

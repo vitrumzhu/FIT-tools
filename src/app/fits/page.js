@@ -34,7 +34,7 @@ export default function Fits() {
 
   const handleOpenAddNewPop = () => {
     setIsShowAdd(true);
-    console.log('handleOpenAddNewPop');
+    // console.log('handleOpenAddNewPop');
   };
   const handleCloseAddNewPop = () => {
     setIsShowAdd(false);
@@ -113,6 +113,7 @@ export default function Fits() {
         const element = memberFitList[index];
         console.log('Fits', index, element[date1], date1);
         if(element[date1] && element[date1].position_lat){
+          element[date1].avatarIndex = members[index].avatarIndex;
           fitItemList.push(element[date1])
         }
       }

@@ -49,7 +49,7 @@ export default function About() {
     setData({ fileName: file.name, data: data });
 
     // Log the data for inspection
-    console.log(data);
+    // console.log(data);
   };
 
   const handleWind = async (inData) => {

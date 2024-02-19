@@ -8,17 +8,20 @@ import {MapController} from './MapController';
 
 import styles from './Map.module.scss';
 
+import {avataList} from '../../utils';
+
 const { MapContainer, Marker, Popup } = ReactLeaflet;
 
 const Map = ({ children, className, width, height, selectedReview, activeMember, ...rest }) => {
 
-  const [iconMap, setIconMap] = useState([
-    Leaflet.icon({ iconUrl: "avataaars_0.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
-    Leaflet.icon({ iconUrl: "avataaars_1.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
-    Leaflet.icon({ iconUrl: "avataaars_2.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
-    Leaflet.icon({ iconUrl: "avataaars_3.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
-    Leaflet.icon({ iconUrl: "avataaars_4.png",iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}),
-  ]);
+  let iconAvatar = [];
+  
+  for (let index = 0; index < avataList.length; index++) {
+    const item = avataList[index];
+    iconAvatar.push(Leaflet.icon({ iconUrl: item.url, iconSize: [52, 52], popupAnchor: [0, -52], iconAnchor: [26, 52],}))
+  }
+  // console.log('iconAvatar', iconAvatar);
+  const [iconMap, setIconMap] = useState(iconAvatar);
   // const mapEl = useRef(null);
   let mapInstance = useRef(null);
   let mapClassName = styles.map;
@@ -45,10 +48,10 @@ const Map = ({ children, className, width, height, selectedReview, activeMember,
           selectedReview={selectedReview} activeMember={activeMember}
         />
         {activeMember && activeMember.map((item, index) => {
-          console.log('activeMember Marker', index, `avataaars_${index}.png`)
+          console.log('MapContainer Marker', item, index)
           return (
             <Marker position={[item.position_lat, item.position_long]} key={`${item.position_lat}${item.timer_time}${item.speed}${index}`} 
-              icon={iconMap[index]}
+              icon={iconMap[item.avatarIndex]}
             >
               <Popup>
                 天呐，累死了！<br /> 我被拉爆了！
