@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { FileUploader } from "react-drag-drop-files";
 var FitParser = require("fit-file-parser").default;
+import Image from 'next/image'
+import {avataList} from '../utils';
 
 const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol, handleCloseAddNewPop, handleAddNewActivity }) => {
   const [value, setValue] = useState(defaultValue || 'guest');
   const [fileInfo, setFileInfo] = useState();
   const [fitInfo, setFitInfo] = useState();
-
+  const [selectId, setSelectId] = useState(0);
   const fileTypes = ["FIT"];
 
   if (!fixValue) {
@@ -33,6 +35,8 @@ const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol
       name: value,
       file: fileInfo,
       fit: fitInfo,
+      avatrurl: avataList[selectId].url,
+      avatarIndex: selectId,
     })
     
     setFitInfo();
@@ -113,6 +117,32 @@ const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol
     );
   }
 
+  const AvataSelector = () => {
+    
+    const handleSelect = (e) => {
+      // console.log('handleSelect', e?.target?.dataset?.index);
+      if (e?.target?.dataset?.index) {
+        setSelectId(Number(e?.target?.dataset?.index));
+      }
+    }
+    return (
+      <>
+        {avataList.map((item, index) =>(
+          <Image src={`/${item.url}`}
+            key={index}
+            index={index}
+            onClick={handleSelect}
+            width={88}
+            height={80}
+            className={`cursor-pointer w-32 bg-gray-100 rounded-full shadow-lg ${index === selectId ? 'ring-2 ring-red-300' : null}`}
+            alt="avata"
+            data-index={`${index}`} 
+          />
+        ))}
+      </>
+    )
+  };
+
   return (
     <div className="p-10">
       
@@ -139,6 +169,10 @@ const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol
                           <div>
                               <label htmlFor="member" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> Member name</label>
                               <input type="text" name="member" id="member" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black" placeholder="name" required onChange={handleInputChange} value={value}/>
+                          </div>
+                          <div className="flex gap-4">
+                          
+                            <AvataSelector></AvataSelector>
                           </div>
                           <div className="flex items-center justify-center w-full">
                             <DragDrop onChange={handleChange} />
