@@ -57,7 +57,7 @@ const AvatarCard = ({info, activeMember, index}) => {
           
           {activeMember? (<>
             <div className={`text-2xl ${textColor} w-full`}>{activeMember.power}w</div>
-            <span className={`text-sm ${textColor} inline`}>{ Math.round(activeMember.speed * 100) / 100} kph</span>
+            <span className={`text-sm ${textColor} inline`}>{ Math.round((activeMember.speed|| activeMember.enhanced_speed) * 100) / 100} kph</span>
             {/* <span className="text-sm text-gray-500 dark:text-gray-400 inline">Cadence: {activeMember.cadence}</span> */}
           </>
           ) : null}
