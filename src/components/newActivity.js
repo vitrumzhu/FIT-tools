@@ -128,7 +128,7 @@ const NewActivity = ({ label, min, max, defaultValue, fixValue, fixLevel, symbol
     return (
       <>
         {avataList.map((item, index) =>(
-          <Image src={`/${item.url}`}
+          <Image src={`${item.url}`}
             key={index}
             index={index}
             onClick={handleSelect}

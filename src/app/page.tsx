@@ -23,7 +23,7 @@ const PageWrapper = ({
             rel="noopener noreferrer"
           >
             <Image
-              src="/fit.svg"
+              src="fit.svg"
               alt="FIT Logo"
               className="dark:invert"
               width={100}
@@ -37,7 +37,7 @@ const PageWrapper = ({
       <div className="relative flex place-items-center logo-box">
         <Image
           className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/fit.svg"
+          src="fit.svg"
           alt="FIT"
           width={480}
           height={320}

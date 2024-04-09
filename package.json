@@ -14,6 +14,7 @@
     "lint-staged": "yarn lint-staged"
   },
   "dependencies": {
+    "@webav/av-cliper": "^0.3.3",
     "downsample": "^1.4.0",
     "framer-motion": "^10.16.9",
     "leaflet": "^1.9.4",
